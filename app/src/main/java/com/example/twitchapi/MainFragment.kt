@@ -24,7 +24,6 @@ class MainFragment : Fragment() {
     @JvmField
     @Inject
     var apiInterface: ApiInterface? = null
-    private lateinit var recyclerView: RecyclerView
     private var newsList: ArrayList<NewsModel.Article> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +41,8 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(context)
         (activity?.application as MyApplication).getComponent().inject(this)
-        var call = apiInterface?.getHeadlines("3d25198a174f4978ae94dc9d88f41111", "us")
+        var call = apiInterface?.getHeadlines("Your apiKey", "us")
         call?.enqueue(object : Callback<NewsModel> {
             override fun onResponse(call: retrofit2.Call<NewsModel>, response: Response<NewsModel>) {
                 Log.i("MainFragment", "onResponse: ${response.body()}")
